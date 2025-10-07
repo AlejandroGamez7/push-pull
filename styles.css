@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   background-color: #0d0d0d;
   color: #fff;
   overflow-x: hidden;
@@ -76,7 +76,7 @@ body {
 /* HERO */
 .hero {
   display: flex;
-  justify-content: flex-start; /* Cambia a flex-start para alinear a la izquierda */
+  justify-content: center; /* Cambia a flex-start para alinear a la izquierda */
   align-items: center;
   padding: 80px 120px;
   min-height: 100vh;
@@ -96,7 +96,12 @@ body {
 .hero .content {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column; /* Coloca los elementos en columna */
+  align-items: center;    /* Centra horizontalmente */
+  text-align: center;     /* Centra el texto dentro de cada elemento */
 }
+
 /* ...existing code... */
 
 .hero h1 {
@@ -107,22 +112,31 @@ body {
 .hero .slogan {
   font-size: 1.2rem;
   margin-top: 10px;
+  font-weight: 600;
+}
+
+.hero .titulo{
+    font-size: 70px;
+    font-family: "Montserrat", sans-serif ;
+    font-weight: bold;
+    color: #d9d9d9;
+
 }
 
 .hero button {
   margin-top: 25px;
-  background-color: #ff761a;
-  color: #111;
-  border: none;
-  padding: 12px 28px;
-  font-size: 1rem;
+  background: rgba(217, 217, 217, 0.22); /* fondo #d9d9d9 con 22% de opacidad */
+  color: #d9d9d9;
+  border: 1px solid #D9D9D9;
+  padding: 10px 26px;
+  font-weight: 600;
+  font-size: 0.6rem;
   border-radius: 30px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
 }
 
 .hero button:hover {
-  background-color: #ffa726;
   transform: scale(1.05);
 }
 
