@@ -29,7 +29,7 @@ body {
 
 .sidebar h2 {
   text-align: center;
-  color: #f39c12;
+  color: #ff761a;
   margin-bottom: 40px;
   cursor: pointer;
 }
@@ -50,7 +50,7 @@ body {
 }
 
 .sidebar a:hover {
-  color: #f39c12;
+  color: #ff761a;
 }
 
 /* Estado colapsado */
@@ -101,7 +101,7 @@ body {
 
 .hero h1 {
   font-size: 4rem;
-  color: #f39c12;
+  color: #ff761a;
 }
 
 .hero .slogan {
@@ -111,7 +111,7 @@ body {
 
 .hero button {
   margin-top: 25px;
-  background-color: #f39c12;
+  background-color: #ff761a;
   color: #111;
   border: none;
   padding: 12px 28px;
@@ -152,7 +152,7 @@ body {
 }
 
 .about h2 {
-  color: #f39c12;
+  color: #ff761a;
   margin-bottom: 15px;
 }
 
@@ -164,7 +164,7 @@ body {
 }
 
 .featured h2 {
-  color: #f39c12;
+  color: #ff761a;
   margin-bottom: 50px;
 }
 
@@ -196,6 +196,10 @@ body {
 
 .vinyl img:hover {
   transform: scale(1.1);
+}
+
+.caratula {
+    margin-top: 20px;
 }
 
 /* ANIMACIONES DE ENTRADA */
