@@ -1,0 +1,243 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #0d0d0d;
+  color: #fff;
+  overflow-x: hidden;
+  transition: all 0.4s ease;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 180px;
+  height: 100vh;
+  background-color: #111;
+  padding: 20px;
+  transition: width 0.4s ease;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.sidebar h2 {
+  text-align: center;
+  color: #f39c12;
+  margin-bottom: 40px;
+  cursor: pointer;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar li {
+  margin: 20px 0;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  transition: color 0.3s;
+}
+
+.sidebar a:hover {
+  color: #f39c12;
+}
+
+/* Estado colapsado */
+.sidebar.closed {
+  width: 70px;
+}
+
+.sidebar.closed ul li a {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  margin-left: 180px;
+  transition: margin-left 0.4s ease;
+}
+
+.main-content.expanded {
+  margin-left: 70px;
+}
+
+/* HERO */
+.hero {
+  display: flex;
+  justify-content: flex-start; /* Cambia a flex-start para alinear a la izquierda */
+  align-items: center;
+  padding: 80px 120px;
+  min-height: 100vh;
+  transition: all 0.4s ease;
+  position: relative;
+  background: url('img/vinilo.jpg') center center/cover no-repeat;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6); /* Oscurece el fondo para mejor legibilidad */
+  z-index: 0;
+}
+
+.hero .content {
+  position: relative;
+  z-index: 1;
+}
+/* ...existing code... */
+
+.hero h1 {
+  font-size: 4rem;
+  color: #f39c12;
+}
+
+.hero .slogan {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+.hero button {
+  margin-top: 25px;
+  background-color: #f39c12;
+  color: #111;
+  border: none;
+  padding: 12px 28px;
+  font-size: 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.hero button:hover {
+  background-color: #ffa726;
+  transform: scale(1.05);
+}
+
+.hero .image img {
+  width: 420px;
+  border-radius: 50%;
+  box-shadow: 0 0 25px rgba(255, 165, 0, 0.4);
+  transition: transform 0.5s ease;
+}
+
+.hero .image img:hover {
+  transform: rotate(-5deg) scale(1.05);
+}
+
+/* SOBRE NOSOTROS */
+.about {
+  margin: 100px 200px;
+  line-height: 1.6;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
+}
+
+.about.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.about h2 {
+  color: #f39c12;
+  margin-bottom: 15px;
+}
+
+/* DESTACADOS */
+.featured {
+  background-color: #1a1a1a;
+  text-align: center;
+  padding: 80px 0;
+}
+
+.featured h2 {
+  color: #f39c12;
+  margin-bottom: 50px;
+}
+
+.vinyls {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+}
+
+.vinyl {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: all 0.8s ease-out;
+}
+
+.vinyl.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.vinyl img {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
+  transition: transform 0.3s;
+}
+
+.vinyl img:hover {
+  transform: scale(1.1);
+}
+
+/* ANIMACIONES DE ENTRADA */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1s ease;
+}
+
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(100px);
+  transition: all 1s ease;
+}
+
+.slide-in-right.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.slide-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1s ease;
+}
+
+.slide-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  background-color: #111;
+  color: #aaa;
+  padding: 25px 0;
+  font-size: 0.9rem;
+}
+
