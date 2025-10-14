@@ -18,10 +18,29 @@ const elements = document.querySelectorAll('.fade-in, .slide-up, .slide-in-right
 
 const showOnScroll = () => {
   const triggerBottom = window.innerHeight * 0.85;
+  const triggerTop = window.innerHeight * 0.1; // Umbral superior para detectar salida de vista
+
   elements.forEach(el => {
     const boxTop = el.getBoundingClientRect().top;
-    if (boxTop < triggerBottom) el.classList.add('show');
+    const boxBottom = el.getBoundingClientRect().bottom;
+    if (boxTop < triggerBottom && boxBottom > triggerTop) {
+      el.classList.add('show');
+    } else {
+      el.classList.remove('show');
+    }
   });
+};
+
+// Throttle para mejorar rendimiento en scroll intensivo (evita llamadas excesivas)
+let ticking = false;
+const updateScroll = () => {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      showOnScroll();
+      ticking = false;
+    });
+    ticking = true;
+  }
 };
 
 window.addEventListener('scroll', showOnScroll);
