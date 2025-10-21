@@ -38,7 +38,7 @@ body {
 }
 
 .sidebar h2 {
-  text-align: center;
+  text-align: left;
   color: #ff761a;
   margin-bottom: 40px;
   cursor: pointer;
@@ -72,6 +72,12 @@ body {
   opacity: 0;
   pointer-events: none;
 }
+
+.sidebar.closed h2 {
+  text-align: center;
+  padding-left: 0;
+}
+
 
 /* MAIN CONTENT */
 .main-content {
@@ -256,6 +262,21 @@ body {
   margin-top: 25px;
   letter-spacing: 1px;
   user-select: none;
+}
+.story {
+  margin: 100px 200px;
+  line-height: 1.6;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
+}
+.story h2 {
+  color: #ff761a;
+  margin-bottom: 15px;
+}
+.story.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ANIMACIONES DE ENTRADA */
