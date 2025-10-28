@@ -38,7 +38,7 @@ body {
 }
 
 .sidebar h2 {
-  text-align: left;
+  text-align: center;
   color: #ff761a;
   margin-bottom: 40px;
   cursor: pointer;
@@ -72,12 +72,6 @@ body {
   opacity: 0;
   pointer-events: none;
 }
-
-.sidebar.closed h2 {
-  text-align: center;
-  padding-left: 0;
-}
-
 
 /* MAIN CONTENT */
 .main-content {
@@ -263,22 +257,6 @@ body {
   letter-spacing: 1px;
   user-select: none;
 }
-/*HISTORIA DEL ARTISTA*/
-.story {
-  margin: 100px 200px;
-  line-height: 1.6;
-  opacity: 0;
-  transform: translateY(50px);
-  transition: all 0.8s ease-out;
-}
-.story h2 {
-  color: #ff761a;
-  margin-bottom: 15px;
-}
-.story.show {
-  opacity: 1;
-  transform: translateY(0);
-}
 
 /* ANIMACIONES DE ENTRADA */
 .fade-in {
@@ -315,11 +293,39 @@ body {
 }
 
 /* FOOTER */
-footer {
-  text-align: center;
-  background-color: #111;
-  color: #aaa;
-  padding: 25px 0;
-  font-size: 0.9rem;
+.footer{
+  background:#111;
+  color:#ccc;
+  padding:40px 60px;
+  font-size:0.9rem;
 }
+
+.footer h3{
+  color:#fff;
+  font-size:1rem;
+  margin-bottom:10px;
+}
+
+.footer-grid{
+  display:flex;
+  justify-content:space-between;
+  gap:40px;
+  flex-wrap:wrap;
+  max-width:1100px;
+  margin:0 auto;
+}
+
+.footer .social{
+  margin-top:15px;
+  display:flex;
+  gap:10px;
+}
+
+.copy{
+  text-align:center;
+  margin-top:40px;
+  font-size:0.8rem;
+  color:#888;
+}
+
 
