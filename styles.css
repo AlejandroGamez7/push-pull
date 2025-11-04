@@ -145,11 +145,7 @@ body {
   font-weight: 600;
 }
 
-.hero .titulo {
-  font-size: 70px;
-  font-family: "Montserrat", sans-serif;
-  font-weight: bold;
-  color: #d9d9d9;
+
 .hero .titulo {
   font-size: 70px;
   font-family: "Montserrat", sans-serif;
@@ -305,16 +301,13 @@ body {
   opacity: 1;
 }
 
-.overlay-text {
-  margin-top: 30px;
+
 
 .overlay-text {
   margin-top: 30px;
 }
 
-.caracteristicas {
-  font-size: 0.8rem;
-  line-height: 1.5;
+
 
 .caracteristicas {
   font-size: 0.8rem;
@@ -437,23 +430,14 @@ body {
   /* Pone el texto y los enlaces por encima del ::before */
 }
 
-.footer h3 {
-  color: #fff;
-  font-size: 1rem;
-  margin-bottom: 10px;
+
 .footer h3 {
   color: #fff;
   font-size: 1rem;
   margin-bottom: 10px;
 }
 
-.footer-grid {
-  display: flex;
-  justify-content: space-between;
-  gap: 40px;
-  flex-wrap: wrap;
-  max-width: 1100px;
-  margin: 0 auto;
+
 .footer-grid {
   display: flex;
   justify-content: space-between;
@@ -463,10 +447,7 @@ body {
   margin: 0 auto;
 }
 
-.footer .social {
-  margin-top: 15px;
-  display: flex;
-  gap: 10px;
+
 .footer .social {
   margin-top: 15px;
   display: flex;
