@@ -209,7 +209,7 @@ body {
   text-align: center;
   padding: 80px 0;
   overflow: hidden;
-  z-index: 1;
+  z-index: 0;
 }
 
 /* Fondo con imagen en blanco y negro */
@@ -219,7 +219,7 @@ body {
   inset: 0;
   background: url('img/taylor_background.jpg') center center/cover no-repeat;
   filter: grayscale(100%);
-  z-index: 0;
+  z-index: -1;
 }
 
 /* Overlay negro semitransparente encima del fondo */
@@ -228,7 +228,7 @@ body {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
-  z-index: 0;
+  z-index: -1;
 }
 
 /* Todo el contenido encima de ambos */
