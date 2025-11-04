@@ -14,12 +14,16 @@ body {
 }
 
 .hero-logo {
-  position: absolute;  /* Posicionamiento respecto al hero */
-  top: 20px;           /* Ajusta según tu gusto */
-  left: 20px;
-  width: 100px;         /* Tamaño del logo */
+  position: absolute;
+  /* Posicionamiento respecto al hero */
+  top: 25px;
+  /* Ajusta según tu gusto */
+  left: 40px;
+  width: 140px;
+  /* Tamaño del logo */
   height: auto;
-  z-index: 2;          /* Por encima del overlay */
+  z-index: 2;
+  /* Por encima del overlay */
   transition: transform 0.3s;
 }
 
@@ -86,7 +90,8 @@ body {
 /* HERO */
 .hero {
   display: flex;
-  justify-content: center; /* Cambia a flex-start para alinear a la izquierda */
+  justify-content: center;
+  /* Cambia a flex-start para alinear a la izquierda */
   align-items: center;
   padding: 80px 120px;
   min-height: 100vh;
@@ -99,7 +104,8 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.6); /* Oscurece el fondo para mejor legibilidad */
+  background: rgba(0, 0, 0, 0.6);
+  /* Oscurece el fondo para mejor legibilidad */
   z-index: 0;
 }
 
@@ -107,13 +113,15 @@ body {
   position: relative;
   z-index: 1;
   display: flex;
-  flex-direction: column; /* Coloca los elementos en columna */
-  align-items: center;    /* Centra horizontalmente */
-  text-align: center;     /* Centra el texto dentro de cada elemento */
+  flex-direction: column;
+  /* Coloca los elementos en columna */
+  align-items: center;
+  /* Centra horizontalmente */
+  text-align: center;
+  /* Centra el texto dentro de cada elemento */
 }
 
 /* ...existing code... */
-
 .hero h1 {
   font-size: 4rem;
   color: #ff761a;
@@ -125,17 +133,17 @@ body {
   font-weight: 600;
 }
 
-.hero .titulo{
-    font-size: 70px;
-    font-family: "Montserrat", sans-serif ;
-    font-weight: bold;
-    color: #d9d9d9;
-
+.hero .titulo {
+  font-size: 70px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  color: #d9d9d9;
 }
 
 .hero button {
   margin-top: 25px;
-  background: rgba(217, 217, 217, 0.22); /* fondo #d9d9d9 con 22% de opacidad */
+  background: rgba(217, 217, 217, 0.22);
+  /* fondo #d9d9d9 con 22% de opacidad */
   color: #d9d9d9;
   border: 1px solid #D9D9D9;
   padding: 10px 26px;
@@ -237,16 +245,20 @@ body {
 .vinyl:hover .overlay-text {
   opacity: 1;
 }
-.overlay-text{
-    margin-top: 30px;
+
+.overlay-text {
+  margin-top: 30px;
 }
-.caracteristicas{
-    font-size: 0.8rem;
-    line-height: 1.5;
+
+.caracteristicas {
+  font-size: 0.8rem;
+  line-height: 1.5;
 }
+
 .price-tag {
   display: inline-block;
-  background: rgba(217, 217, 217, 0.22); /* fondo #d9d9d9 con 22% de opacidad */
+  background: rgba(217, 217, 217, 0.22);
+  /* fondo #d9d9d9 con 22% de opacidad */
   color: #d9d9d9;
   border: 1px solid #D9D9D9;
   font-weight: bold;
@@ -256,6 +268,25 @@ body {
   margin-top: 25px;
   letter-spacing: 1px;
   user-select: none;
+}
+
+/*HISTORIA DEL ARTISTA*/
+.story {
+  margin: 100px 200px;
+  line-height: 1.6;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
+}
+
+.story h2 {
+  color: #ff761a;
+  margin-bottom: 15px;
+}
+
+.story.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ANIMACIONES DE ENTRADA */
@@ -293,39 +324,74 @@ body {
 }
 
 /* FOOTER */
-.footer{
-  background:#111;
-  color:#ccc;
-  padding:40px 60px;
-  font-size:0.9rem;
+/* Modifica tu regla .footer existente */
+.footer {
+  position: relative;
+  /* Necesario para posicionar el pseudo-elemento */
+  overflow: hidden;
+  /* Para contener el efecto de brillo */
+  background: #111;
+  color: #ccc;
+  padding: 40px 60px;
+  font-size: 0.9rem;
 }
 
-.footer h3{
-  color:#fff;
-  font-size:1rem;
-  margin-bottom:10px;
+/* Añade este nuevo bloque de CSS */
+.footer::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  /* Detrás del contenido, pero sobre el fondo */
+  /* Posición: centrado en el borde superior */
+  top: 0;
+  left: 50%;
+  /* Ajusta el tamaño del "foco" */
+  width: 1000px;
+  /* Ancho del gradiente */
+  height: 400px;
+  /* Alto del gradiente */
+  /* Mueve el centro del gradiente (lo sube y centra) */
+  transform: translate(-50%, -50%);
+  /* El gradiente radial (el efecto blanco) */
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%,
+      /* Centro blanco-transparente */
+      rgba(255, 255, 255, 0) 70%
+      /* Borde transparente al 70% del tamaño */
+    );
 }
 
-.footer-grid{
-  display:flex;
-  justify-content:space-between;
-  gap:40px;
-  flex-wrap:wrap;
-  max-width:1100px;
-  margin:0 auto;
+/* Añade esta nueva regla para el contenido */
+.footer-grid,
+.copy {
+  position: relative;
+  z-index: 1;
+  /* Pone el texto y los enlaces por encima del ::before */
 }
 
-.footer .social{
-  margin-top:15px;
-  display:flex;
-  gap:10px;
+.footer h3 {
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 10px;
 }
 
-.copy{
-  text-align:center;
-  margin-top:40px;
-  font-size:0.8rem;
-  color:#888;
+.footer-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
+.footer .social {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
 
+.copy {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 0.8rem;
+  color: #888;
+}
