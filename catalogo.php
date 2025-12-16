@@ -43,6 +43,41 @@ if (isset($_GET['toggle']) && isset($_GET['estado_actual'])) {
     exit();
 }
 
+// D) EDITAR VINILO (AJAX)
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['accion']) && $_POST['accion'] == 'editar') {
+    $id = intval($_POST['id']);
+    $updates = array();
+    
+    if (!empty($_POST['nombre'])) {
+        $nombre = $conn->real_escape_string($_POST['nombre']);
+        $updates[] = "NOMBRE = '$nombre'";
+    }
+    if (!empty($_POST['artista'])) {
+        $artista = $conn->real_escape_string($_POST['artista']);
+        $updates[] = "ARTISTA = '$artista'";
+    }
+    if (!empty($_POST['precio'])) {
+        $precio = floatval($_POST['precio']);
+        $updates[] = "PRECIO = $precio";
+    }
+    if (!empty($_POST['anyo'])) {
+        $anyo = intval($_POST['anyo']);
+        $updates[] = "AÑO = $anyo";
+    }
+    if (!empty($_POST['descripcion'])) {
+        $descripcion = $conn->real_escape_string($_POST['descripcion']);
+        $updates[] = "DESCRIPCION = '$descripcion'";
+    }
+    
+    if (count($updates) > 0) {
+        $sql = "UPDATE vinilos SET " . implode(", ", $updates) . " WHERE ID = $id";
+        $conn->query($sql);
+    }
+    
+    header("Location: catalogo.php");
+    exit();
+}
+
 // --- 2. CONSULTA ---
 $where = "";
 $busqueda = "";
@@ -145,12 +180,56 @@ $result = $conn->query($sql);
         .btn-del:hover { border-color: #ff4d4d; color: #ff4d4d; }
 
         .row-oculto { opacity: 0.5; }
+
+        /* Estilos para edición inline */
+        .edit-mode td input, .edit-mode td textarea {
+            background-color: #222;
+            border: 1px solid var(--accent);
+            color: white;
+            padding: 5px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .edit-cell {
+            cursor: pointer;
+            padding: 10px;
+            min-height: 20px;
+        }
+
+        .edit-cell:hover {
+            background-color: #1a1a1a;
+        }
+
+        .edit-mode .edit-cell input {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .btn-save, .btn-cancel {
+            background-color: var(--accent);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            transition: 0.2s;
+            margin-right: 5px;
+        }
+
+        .btn-save:hover { background-color: #ff6b0a; }
+        .btn-cancel { background-color: #555; }
+        .btn-cancel:hover { background-color: #666; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>RetroGroove Manager</h1>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>RetroGroove Manager</h1>
+            <a href="index.html" style="background-color: var(--accent); color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold; transition: 0.3s;">← Volver al inicio</a>
+        </div>
     </header>
 
     <div class="controls-container">
@@ -202,6 +281,7 @@ $result = $conn->query($sql);
                     <tr>
                         <th>Cover</th>
                         <th>Info</th>
+                        <th>Descripción</th>
                         <th>Precio</th>
                         <th>Acciones</th>
                     </tr>
@@ -209,15 +289,24 @@ $result = $conn->query($sql);
                 <tbody>
                     <?php foreach($result as $res): ?>
                         <?php $clase_fila = ($res['VISIBLE'] == 0) ? 'row-oculto' : ''; ?>
-                        <tr class="<?php echo $clase_fila; ?>">
+                        <tr class="<?php echo $clase_fila; ?>" data-id="<?php echo $res['ID']; ?>">
                             <td><img src="img/covers/<?php echo $res['FOTO']; ?>" class="cover-preview"></td>
                             <td>
-                                <strong style="color:white;"><?php echo $res['NOMBRE']; ?></strong><br>
-                                <span style="color:var(--text-dim); font-size:0.9rem;"><?php echo $res['ARTISTA']; ?></span>
+                                <div class="edit-cell edit-nombre"><strong style="color:white;"><?php echo $res['NOMBRE']; ?></strong></div>
+                                <div class="edit-cell edit-artista"><span style="color:var(--text-dim); font-size:0.9rem;"><?php echo $res['ARTISTA']; ?></span></div>
                             </td>
-                            <td><?php echo $res['PRECIO']; ?>€</td>
+                            <td>
+                                <div class="edit-cell edit-descripcion" style="font-size:0.9rem; color:var(--text-dim);"><?php echo $res['DESCRIPCION']; ?></div>
+                            </td>
+                            <td>
+                                <div class="edit-cell edit-precio"><?php echo $res['PRECIO']; ?>€</div>
+                            </td>
                             <td>
                                 <div class="actions">
+                                    <button class="btn-icon btn-edit" title="Editar" onclick="toggleEdit(this)">
+                                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                    </button>
+
                                     <a href="catalogo.php?toggle=<?php echo $res['ID']; ?>&estado_actual=<?php echo $res['VISIBLE']; ?>" class="btn-icon" title="Visibilidad">
                                         <?php if($res['VISIBLE'] == 1): ?>
                                             <svg class="icon-svg" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
@@ -229,6 +318,9 @@ $result = $conn->query($sql);
                                     <a href="catalogo.php?borrar=<?php echo $res['ID']; ?>" class="btn-icon btn-del" onclick="return confirm('¿Eliminar?');" title="Eliminar">
                                         <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                                     </a>
+
+                                    <button class="btn-save" style="display:none;" onclick="saveEdit(this)">Guardar</button>
+                                    <button class="btn-cancel" style="display:none;" onclick="cancelEdit(this)">Cancelar</button>
                                 </div>
                             </td>
                         </tr>
@@ -241,15 +333,77 @@ $result = $conn->query($sql);
     </div>
 
     <script>
+        // Script para edición inline
+        function toggleEdit(btn) {
+            const row = btn.closest('tr');
+            const isEditing = row.classList.contains('edit-mode');
+
+            if (isEditing) {
+                cancelEdit(btn);
+            } else {
+                // Entrar en modo edición
+                row.classList.add('edit-mode');
+                
+                // Convertir celdas a inputs
+                const nombre = row.querySelector('.edit-nombre');
+                const artista = row.querySelector('.edit-artista');
+                const descripcion = row.querySelector('.edit-descripcion');
+                const precio = row.querySelector('.edit-precio');
+                
+                const nombreText = nombre.textContent.trim();
+                const artistaText = artista.textContent.trim();
+                const descripcionText = descripcion.textContent.trim();
+                const precioText = precio.textContent.trim().replace('€', '');
+
+                nombre.innerHTML = `<input type="text" class="input-nombre" value="${nombreText}">`;
+                artista.innerHTML = `<input type="text" class="input-artista" value="${artistaText}">`;
+                descripcion.innerHTML = `<textarea class="input-descripcion" rows="2">${descripcionText}</textarea>`;
+                precio.innerHTML = `<input type="number" step="0.01" class="input-precio" value="${precioText}">`;
+
+                // Mostrar/ocultar botones
+                row.querySelector('.btn-edit').style.display = 'none';
+                row.querySelectorAll('.btn-save, .btn-cancel').forEach(b => b.style.display = 'inline-block');
+            }
+        }
+
+        function saveEdit(btn) {
+            const row = btn.closest('tr');
+            const id = row.dataset.id;
+
+            const nombre = row.querySelector('.input-nombre')?.value || '';
+            const artista = row.querySelector('.input-artista')?.value || '';
+            const descripcion = row.querySelector('.input-descripcion')?.value || '';
+            const precio = row.querySelector('.input-precio')?.value || '';
+
+            const formData = new FormData();
+            formData.append('accion', 'editar');
+            formData.append('id', id);
+            if (nombre) formData.append('nombre', nombre);
+            if (artista) formData.append('artista', artista);
+            if (descripcion) formData.append('descripcion', descripcion);
+            if (precio) formData.append('precio', precio);
+
+            fetch('catalogo.php', {
+                method: 'POST',
+                body: formData
+            }).then(() => {
+                location.reload();
+            });
+        }
+
+        function cancelEdit(btn) {
+            const row = btn.closest('tr');
+            location.reload();
+        }
+
         // Script pequeño para que cambie el texto "Seleccionar Portada" 
-        // por el nombre del archivo cuando el usuario elige uno.
         function actualizarNombreArchivo() {
             const input = document.getElementById('inputFoto');
             const texto = document.getElementById('texto-archivo');
             
             if (input.files && input.files.length > 0) {
                 texto.textContent = input.files[0].name;
-                texto.style.color = '#fff'; // Resaltar que ya hay archivo
+                texto.style.color = '#fff';
             } else {
                 texto.textContent = 'Seleccionar Portada...';
             }
