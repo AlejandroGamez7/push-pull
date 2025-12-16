@@ -1,17 +1,22 @@
 // Botón de catálogo (simulación)
-document.getElementById("catalogoBtn").addEventListener("click", () => {
-  alert("El catálogo estará disponible próximamente");
-});
+const catalogoBtn = document.getElementById("catalogoBtn");
+if (catalogoBtn) {
+  catalogoBtn.addEventListener("click", () => {
+    window.location.href = "ver_catalogo.php";
+  });
+}
 
 // Sidebar toggle
 const sidebar = document.getElementById("sidebar");
 const mainContent = document.getElementById("mainContent");
 const menuToggle = document.getElementById("menuToggle");
 
-menuToggle.addEventListener("click", () => {
-  sidebar.classList.toggle("closed");
-  mainContent.classList.toggle("expanded");
-});
+if (menuToggle) {
+  menuToggle.addEventListener("click", () => {
+    sidebar.classList.toggle("closed");
+    mainContent.classList.toggle("expanded");
+  });
+}
 
 // Animaciones al hacer scroll
 const elements = document.querySelectorAll('.fade-in, .slide-up, .slide-in-right, .about, .vinyl');
