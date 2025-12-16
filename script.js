@@ -1,6 +1,6 @@
 // Botón de catálogo (simulación)
 document.getElementById("catalogoBtn").addEventListener("click", () => {
-  alert("El catálogo estará disponible próximamente 🎶");
+  alert("El catálogo estará disponible próximamente");
 });
 
 // Sidebar toggle
