@@ -5,6 +5,12 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+
+}
+
 body {
   font-family: 'Inter', sans-serif;
   background-color: #0d0d0d;
@@ -83,6 +89,9 @@ body {
 .main-content {
   margin-left: 180px;
   transition: margin-left 0.4s ease;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .main-content.expanded {
@@ -413,6 +422,7 @@ body {
   color: #ccc;
   padding: 40px 60px;
   font-size: 0.9rem;
+  margin-top: auto;
 }
 
 /* Añade este nuevo bloque de CSS */
@@ -483,7 +493,6 @@ body {
 
 .copy {
   text-align: center;
-  margin-top: 40px;
   font-size: 0.8rem;
   color: #888;
 }
