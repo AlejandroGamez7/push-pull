@@ -28,6 +28,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login RetroGroove</title>
+      <link rel="icon" type="../frontend/image/png" href="img/favicon_o.svg">
+
     <style>
         /* --- ESTILOS GENERALES (Igual que antes) --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -125,6 +127,7 @@
     <div class="login-container">
         <h1 class="brand-title">RETROGROOVE</h1>
         <p class="brand-subtitle">Revive el sonido del pasado.</p>
+        
 
         <form action="" method="post">
             <input type="text" placeholder="Username" name="username" required autocomplete="off">

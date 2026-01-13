@@ -95,6 +95,8 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo RetroGroove</title>
+      <link rel="icon" type="../frontend/image/png" href="img/favicon_o.svg">
+
     <style>
         /* --- ESTILOS RETROGROOVE --- */
         :root {
