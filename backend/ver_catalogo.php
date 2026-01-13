@@ -29,10 +29,10 @@ $result = $conn->query($sql);
   <nav class="sidebar" id="sidebar">
     <h2 id="menuToggle">☰</h2>
     <ul>
-      <li><a href="index.html#inicio">Inicio</a></li>
-      <li><a href="index.html#destacados">Destacados</a></li>
-      <li><a href="index.html#nosotros">Sobre nosotros</a></li>
-      <li><a href="index.html#footer">Contacto</a></li>
+      <li><a href="../frontend/index.html#inicio">Inicio</a></li>
+      <li><a href="../frontend/index.html#destacados">Destacados</a></li>
+      <li><a href="../frontend/index.html#nosotros">Sobre nosotros</a></li>
+      <li><a href="../frontend/index.html#footer">Contacto</a></li>
       <li><a href="login.php">Login</a></li>
     </ul>
   </nav>
@@ -40,7 +40,7 @@ $result = $conn->query($sql);
   <!-- Contenido principal -->
   <div class="main-content" id="mainContent">
     <main class="hero" id="inicio">
-      <img src="img/retrogroovelogo_wo.svg" alt="Logo Retrogroove" class="hero-logo">
+      <img src="../img/retrogroovelogo_wo.svg" alt="Logo Retrogroove" class="hero-logo">
       <section class="content fade-in" style="text-align: center;">
         <p class="titulo">CATÁLOGO</p>
         <p class="slogan">Explora nuestra colección de vinilos</p>
