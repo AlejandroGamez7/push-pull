@@ -2,7 +2,7 @@
 const catalogoBtn = document.getElementById("catalogoBtn");
 if (catalogoBtn) {
   catalogoBtn.addEventListener("click", () => {
-    window.location.href = "ver_catalogo.php";
+    window.location.href = "../backend/ver_catalogo.php";
   });
 }
 
