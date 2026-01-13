@@ -21,41 +21,7 @@ $result = $conn->query($sql);
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <style>
-    /* Fondo oscuro simple para catálogo */
-    .featured {
-      background-color: #0d0d0d !important;
-    }
-    
-    .featured::before {
-      display: none !important;
-    }
-    
-    .featured::after {
-      display: none !important;
-    }
 
-    /* Grid responsivo para los vinilos */
-    .vinyls {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 40px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    @media (max-width: 1024px) {
-      .vinyls {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 640px) {
-      .vinyls {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
 </head>
 
 <body>

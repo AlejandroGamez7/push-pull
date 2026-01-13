@@ -242,10 +242,27 @@ body {
   margin-bottom: 50px;
 }
 
+.featured {
+      background-color: #0d0d0d !important;
+    }
+    
+    .featured::before {
+      display: none !important;
+    }
+    
+    .featured::after {
+      display: none !important;
+    }
+
+
+
 .vinyls {
-  display: flex;
-  justify-content: center;
-  gap: 80px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); 
+      gap: 40px;
+      max-width: 900px;
+      margin: 0 auto;
+      justify-items: center; 
 }
 
 .vinyl {
