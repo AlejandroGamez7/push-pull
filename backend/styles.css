@@ -1,0 +1,498 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #0d0d0d;
+  color: #fff;
+  overflow-x: hidden;
+  transition: all 0.4s ease;
+}
+
+.hero-logo {
+  position: absolute;
+  /* Posicionamiento respecto al hero */
+  top: 25px;
+  /* Ajusta según tu gusto */
+  left: 40px;
+  width: 140px;
+  /* Tamaño del logo */
+  height: auto;
+  z-index: 2;
+  /* Por encima del overlay */
+  z-index: 2;
+  /* Por encima del overlay */
+  transition: transform 0.3s;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 180px;
+  height: 100vh;
+  background-color: #111;
+  padding: 20px;
+  transition: width 0.4s ease;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.sidebar h2 {
+  text-align: center;
+  color: #ff761a;
+  margin-bottom: 40px;
+  cursor: pointer;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar li {
+  margin: 20px 0;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  transition: color 0.3s;
+}
+
+.sidebar a:hover {
+  color: #ff761a;
+}
+
+/* Estado colapsado */
+.sidebar.closed {
+  width: 70px;
+}
+
+.sidebar.closed ul li a {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  margin-left: 180px;
+  transition: margin-left 0.4s ease;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content.expanded {
+  margin-left: 70px;
+}
+
+/* HERO */
+.hero {
+  display: flex;
+  justify-content: center;
+  /* Cambia a flex-start para alinear a la izquierda */
+  justify-content: center;
+  /* Cambia a flex-start para alinear a la izquierda */
+  align-items: center;
+  padding: 80px 120px;
+  min-height: 100vh;
+  transition: all 0.4s ease;
+  position: relative;
+  background: url('img/imagenVNL3XL.jpg') center center/cover no-repeat;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  /* Oscurece el fondo para mejor legibilidad */
+  background: rgba(0, 0, 0, 0.6);
+  /* Oscurece el fondo para mejor legibilidad */
+  z-index: 0;
+}
+
+.hero .content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  /* Coloca los elementos en columna */
+  align-items: center;
+  /* Centra horizontalmente */
+  text-align: center;
+  /* Centra el texto dentro de cada elemento */
+  flex-direction: column;
+  /* Coloca los elementos en columna */
+  align-items: center;
+  /* Centra horizontalmente */
+  text-align: center;
+  /* Centra el texto dentro de cada elemento */
+}
+
+/* ...existing code... */
+.hero h1 {
+  font-size: 4rem;
+  color: #ff761a;
+}
+
+.hero .slogan {
+  font-size: 1.2rem;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+
+.hero .titulo {
+  font-size: 70px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  color: #d9d9d9;
+}
+
+.hero button {
+  margin-top: 25px;
+  background: rgba(217, 217, 217, 0.22);
+  /* fondo #d9d9d9 con 22% de opacidad */
+  background: rgba(217, 217, 217, 0.22);
+  /* fondo #d9d9d9 con 22% de opacidad */
+  color: #d9d9d9;
+  border: 1px solid #D9D9D9;
+  padding: 10px 26px;
+  font-weight: 600;
+  font-size: 0.6rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.hero button:hover {
+  transform: scale(1.05);
+}
+
+.hero .image img {
+  width: 420px;
+  border-radius: 50%;
+  box-shadow: 0 0 25px rgba(255, 165, 0, 0.4);
+  transition: transform 0.5s ease;
+}
+
+.hero .image img:hover {
+  transform: rotate(-5deg) scale(1.05);
+}
+
+/* SOBRE NOSOTROS */
+.about {
+  margin: 100px 200px;
+  line-height: 1.6;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
+}
+
+.about.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.about h2 {
+  color: #ff761a;
+  margin-bottom: 15px;
+}
+
+/* DESTACADOS */
+.featured {
+  position: relative;
+  text-align: center;
+  padding: 80px 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* Fondo con imagen en blanco y negro */
+.featured::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('img/taylor_background.jpg') center center/cover no-repeat;
+  filter: grayscale(100%);
+  z-index: -1;
+}
+
+/* Overlay negro semitransparente encima del fondo */
+.featured::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: -1;
+}
+
+/* Todo el contenido encima de ambos */
+.featured * {
+  position: relative;
+  z-index: 1;
+}
+
+.featured h2 {
+  color: #ff761a;
+  margin-bottom: 50px;
+}
+
+.featured {
+      background-color: #0d0d0d !important;
+    }
+    
+    .featured::before {
+      display: none !important;
+    }
+    
+    .featured::after {
+      display: none !important;
+    }
+
+
+
+.vinyls {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); 
+      gap: 40px;
+      max-width: 900px;
+      margin: 0 auto;
+      justify-items: center; 
+}
+
+.vinyl {
+  position: relative;
+  text-align: center;
+  transition: all 0.3s ease;
+  background: rgba(26, 26, 26, 0.7);
+  /* Fondo casi opaco del color anterior */
+  border-radius: 50%;
+  /* Mantiene el círculo */
+  width: 360px;
+  height: 360px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  /* Evita que sobresalga la imagen */
+  box-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
+}
+
+.vinyl img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  /* box-shadow: 0 0 20px rgba(255, 165, 0, 0.3); */
+  transition: all 0.4s ease;
+}
+
+/* .vinyl { position: relative; text-align: center; transition: all 0.3s ease; } .vinyl img { width: 430px; height: 430px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 20px rgba(255, 165, 0, 0.3); transition: all 0.4s ease; } */
+.vinyl .overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 1rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  padding: 10px;
+  width: 80%;
+  text-align: center;
+  line-height: 1.4;
+  font-weight: bold;
+}
+
+.vinyl:hover img {
+  opacity: 0.4;
+  transform: scale(1.05);
+}
+
+.vinyl:hover .overlay-text {
+  opacity: 1;
+}
+
+
+
+.overlay-text {
+  margin-top: 30px;
+}
+
+
+
+.caracteristicas {
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+
+.price-tag {
+  display: inline-block;
+  background: rgba(217, 217, 217, 0.22);
+  /* fondo #d9d9d9 con 22% de opacidad */
+  background: rgba(217, 217, 217, 0.22);
+  /* fondo #d9d9d9 con 22% de opacidad */
+  color: #d9d9d9;
+  border: 1px solid #D9D9D9;
+  font-weight: bold;
+  border-radius: 31px;
+  padding: 6px 18px;
+  font-size: 0.9rem;
+  margin-top: 25px;
+  letter-spacing: 1px;
+  user-select: none;
+}
+
+/*HISTORIA DEL ARTISTA*/
+.story {
+  margin: 100px 200px;
+  line-height: 1.6;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
+}
+
+.story h2 {
+  color: #ff761a;
+  margin-bottom: 15px;
+}
+
+.story.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ANIMACIONES DE ENTRADA */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1s ease;
+}
+
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(100px);
+  transition: all 1s ease;
+}
+
+.slide-in-right.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.slide-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1s ease;
+}
+
+.slide-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* FOOTER */
+/* Modifica tu regla .footer existente */
+.footer {
+  position: relative;
+  /* Necesario para posicionar el pseudo-elemento */
+  overflow: hidden;
+  /* Para contener el efecto de brillo */
+  background: #111;
+  color: #ccc;
+  padding: 40px 60px;
+  font-size: 0.9rem;
+  margin-top: auto;
+}
+
+/* Añade este nuevo bloque de CSS */
+.footer::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  /* Detrás del contenido, pero sobre el fondo */
+  /* Posición: centrado en el borde superior */
+  top: 0;
+  left: 50%;
+  /* Ajusta el tamaño del "foco" */
+  width: 1000px;
+  /* Ancho del gradiente */
+  height: 400px;
+  /* Alto del gradiente */
+  /* Mueve el centro del gradiente (lo sube y centra) */
+  transform: translate(-50%, -50%);
+  /* El gradiente radial (el efecto blanco) */
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%,
+      /* Centro blanco-transparente */
+      rgba(255, 255, 255, 0) 70%
+      /* Borde transparente al 70% del tamaño */
+    );
+}
+
+/* Añade esta nueva regla para el contenido */
+.footer-grid,
+.copy {
+  position: relative;
+  z-index: 1;
+  /* Pone el texto y los enlaces por encima del ::before */
+}
+
+
+.footer h3 {
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+
+.footer-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+
+.footer .social {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.footer .social i img {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  border-radius: 50%;
+}
+
+.footer .social i:hover img {
+  box-shadow: 0 0 12px 3px rgba(220, 220, 220, 0.162);
+  transform: scale(1.1);
+}
+
+.copy {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #888;
+}
