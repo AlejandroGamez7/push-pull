@@ -292,7 +292,7 @@ $result = $conn->query($sql);
                     <?php foreach($result as $res): ?>
                         <?php $clase_fila = ($res['VISIBLE'] == 0) ? 'row-oculto' : ''; ?>
                         <tr class="<?php echo $clase_fila; ?>" data-id="<?php echo $res['ID']; ?>">
-                            <td><img src="app/img/covers/<?php echo $res['FOTO']; ?>" class="cover-preview"></td>
+                            <td><img src="img/covers/<?php echo $res['FOTO']; ?>" class="cover-preview"></td>
                             <td>
                                 <div class="edit-cell edit-nombre"><strong style="color:white;"><?php echo $res['NOMBRE']; ?></strong></div>
                                 <div class="edit-cell edit-artista"><span style="color:var(--text-dim); font-size:0.9rem;"><?php echo $res['ARTISTA']; ?></span></div>
