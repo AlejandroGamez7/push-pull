@@ -2,7 +2,7 @@
 const catalogoBtn = document.getElementById("catalogoBtn");
 if (catalogoBtn) {
   catalogoBtn.addEventListener("click", () => {
-    window.location.href = "../backend/ver_catalogo.php";
+    window.location.href = "https://push-pull-production.up.railway.app/ver_catalogo.php";
   });
 }
 

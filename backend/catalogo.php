@@ -230,7 +230,7 @@ $result = $conn->query($sql);
     <header>
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <h1>RetroGroove Manager</h1>
-            <a href="index.html" style="background-color: var(--accent); color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold; transition: 0.3s;">← Volver al inicio</a>
+            <a href="https://push-pull-six.vercel.app/" style="background-color: var(--accent); color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold; transition: 0.3s;">← Volver al inicio</a>
         </div>
     </header>
 
