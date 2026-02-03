@@ -29,10 +29,10 @@ $result = $conn->query($sql);
   <nav class="sidebar" id="sidebar">
     <h2 id="menuToggle">☰</h2>
     <ul>
-      <li><a href="/index.html#inicio">Inicio</a></li>
-      <li><a href="/index.html#destacados">Destacados</a></li>
-      <li><a href="/index.html#nosotros">Sobre nosotros</a></li>
-      <li><a href="/index.html#footer">Contacto</a></li>
+      <li><a href="https://push-pull-six.vercel.app/#inicio">Inicio</a></li>
+      <li><a href="https://push-pull-six.vercel.app/#destacados">Destacados</a></li>
+      <li><a href="https://push-pull-six.vercel.app/#nosotros">Sobre nosotros</a></li>
+      <li><a href="https://push-pull-six.vercel.app/#footer">Contacto</a></li>
       <li><a href="login.php">Login</a></li>
     </ul>
   </nav>
