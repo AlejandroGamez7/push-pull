@@ -356,7 +356,7 @@ body {
   border-radius: 31px;
   padding: 6px 18px;
   font-size: 0.9rem;
-  margin-top: 25px;
+  /* margin-top: 25px; Removed to fix alignment in flex container */
   letter-spacing: 1px;
   user-select: none;
 }
