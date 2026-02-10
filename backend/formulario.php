@@ -1,24 +1,55 @@
 <?php
-// include 'conexion.php';
+include 'conexion.php';
 
-// Aquí irá la lógica para procesar el formulario cuando se envíe
-// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-//     $nombre = $_POST['nombre'];
-//     $ciudad = $_POST['ciudad'];
-//     $comentario = $_POST['comentario'];
-//     $vinilo_id = $_POST['vinilo_id'];
-//     
-//     // Insertar en base de datos
-//     // $stmt = $conn->prepare("INSERT INTO opiniones (idVinilo, nombre, ciudad, comentario) VALUES (?, ?, ?, ?)");
-//     // $stmt->bind_param("sssi", $vinilo_id, $nombre, $ciudad, $comentario);
-//     // $stmt->execute();
-//     
-//     // Redireccionar o mostrar mensaje de éxito
-// }
+// Variables para mensajes
+$mensaje = '';
+$tipo_mensaje = ''; // 'success' o 'error'
 
-// Obtener lista de vinilos para el select
-// $sql = "SELECT ID, NOMBRE, ARTISTA FROM vinilos WHERE VISIBLE = 1 ORDER BY NOMBRE ASC";
-// $vinilos_result = $conn->query($sql);
+// Si se recibe un ID por GET, lo guardamos para preseleccionar
+$id_vinilo_seleccionado = isset($_GET['idvinilo']) ? intval($_GET['idvinilo']) : 0;
+$nombre_vinilo_seleccionado = "";
+
+if ($id_vinilo_seleccionado > 0) {
+    $sql_v = "SELECT NOMBRE, ARTISTA FROM vinilos WHERE ID = $id_vinilo_seleccionado";
+    $res_v = $conn->query($sql_v);
+    if ($res_v && $res_v->num_rows > 0) {
+        $v = $res_v->fetch_assoc();
+        $nombre_vinilo_seleccionado = $v['NOMBRE'] . " - " . $v['ARTISTA'];
+    }
+}
+
+// Procesa el formulario
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nombre = $conn->real_escape_string($_POST['nombre']);
+    $ciudad = $conn->real_escape_string($_POST['ciudad']);
+    $comentario = $conn->real_escape_string($_POST['comentario']);
+    $vinilo_id = intval($_POST['vinilo_id']); // Usamos vinilo_id del select
+
+    if ($vinilo_id > 0 && !empty($nombre) && !empty($ciudad) && !empty($comentario)) {
+        // Preparar la consulta
+        $stmt = $conn->prepare("INSERT INTO opiniones (idVinilo, nombre, ciudad, comentario) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("isss", $vinilo_id, $nombre, $ciudad, $comentario);
+        
+        if ($stmt->execute()) {
+            $mensaje = "¡Gracias! Tu reseña ha sido guardada correctamente.";
+            $tipo_mensaje = "success";
+            // Limpiamos los campos para no re-enviar
+            $nombre = $ciudad = $comentario = "";
+            $id_vinilo_seleccionado = 0; // Opcional: resetear selección
+        } else {
+            $mensaje = "Error al guardar la reseña: " . $conn->error;
+            $tipo_mensaje = "error";
+        }
+        $stmt->close();
+    } else {
+        $mensaje = "Por favor, rellena todos los campos obligatorios.";
+        $tipo_mensaje = "error";
+    }
+}
+
+// Obtener lista de vinilos para el selector
+$sql = "SELECT ID, NOMBRE, ARTISTA FROM vinilos WHERE VISIBLE = 1 ORDER BY NOMBRE ASC";
+$result_vinilos = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -38,29 +69,52 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
   <style>
-    /* Estilos específicos para el formulario */
+    /* Estilos específicos para el formulario, manteniendo coherencia con el sitio */
+    .form-section {
+        padding: 50px 20px;
+        display: flex;
+        justify-content: center;
+    }
+
     .form-container {
+      width: 100%;
       max-width: 700px;
-      margin: 80px auto;
-      padding: 40px;
-      background: rgba(26, 26, 26, 0.8);
+      /* Fondo semi-transparente estilo glassmorphism acorde al sitio */
+      background: rgba(26, 26, 26, 0.9);
+      border: 1px solid #333;
       border-radius: 15px;
-      box-shadow: 0 0 30px rgba(255, 118, 26, 0.2);
+      padding: 40px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Pequeño detalle naranja decorativo */
+    .form-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #ff761a, #ff4c29);
     }
 
     .form-container h2 {
       color: #ff761a;
       font-family: "Montserrat", sans-serif;
-      font-size: 2.5rem;
+      font-size: 2rem;
       margin-bottom: 10px;
       text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .form-container .subtitle {
-      color: #d9d9d9;
+      color: #888;
       text-align: center;
-      margin-bottom: 40px;
-      font-size: 1rem;
+      margin-bottom: 30px;
+      font-size: 0.95rem;
     }
 
     .form-group {
@@ -69,19 +123,20 @@
 
     .form-group label {
       display: block;
-      color: #d9d9d9;
-      font-weight: 600;
+      color: #fff;
+      font-weight: 500;
       margin-bottom: 8px;
       font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
     }
 
     .form-group input,
     .form-group select,
     .form-group textarea {
       width: 100%;
-      padding: 12px 15px;
-      background: rgba(13, 13, 13, 0.6);
-      border: 1px solid #333;
+      padding: 14px 16px;
+      background: #111;
+      border: 1px solid #444;
       border-radius: 8px;
       color: #fff;
       font-family: 'Inter', sans-serif;
@@ -94,100 +149,107 @@
     .form-group textarea:focus {
       outline: none;
       border-color: #ff761a;
-      box-shadow: 0 0 10px rgba(255, 118, 26, 0.3);
+      background: #161616;
+      box-shadow: 0 0 0 4px rgba(255, 118, 26, 0.1);
     }
 
     .form-group textarea {
       resize: vertical;
-      min-height: 150px;
+      min-height: 120px;
       line-height: 1.6;
     }
 
-    .form-group select {
-      cursor: pointer;
-      color: #1a1a1a;
-    }
-
     .form-group select option {
-      background: #2a2a2a;
-      color: #d9d9d9;
+      background: #111;
+      color: #fff;
+      padding: 10px;
     }
 
     .button-group {
       display: flex;
       gap: 15px;
-      margin-top: 35px;
+      margin-top: 40px;
     }
 
     .submit-button {
-      flex: 1;
-      background: rgba(255, 118, 26, 0.22);
-      color: #ff761a;
-      border: 1px solid #ff761a;
-      font-weight: bold;
-      border-radius: 31px;
-      padding: 12px 30px;
-      font-size: 1rem;
+      flex: 2;
+      background: #e85d04; 
+      color: #fff;
+      border: none;
+      font-weight: bold; /* Bold */
+      border-radius: 4px;
+      padding: 10px 20px;
+      font-size: 0.9rem; /* Standardized size */
+      font-family: 'Segoe UI', sans-serif; /* Standardized font */
       letter-spacing: 1px;
       cursor: pointer;
       transition: all 0.3s ease;
-      text-transform: uppercase;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      text-transform: uppercase; /* Uppercase */
+      height: auto;
     }
 
     .submit-button:hover {
-      background: rgba(255, 118, 26, 0.35);
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(255, 118, 26, 0.3);
+      background: #ff6b0a;
+      transform: none; /* Removed bounce */
+      box-shadow: none;
     }
 
     .cancel-button {
       flex: 1;
-      background: rgba(217, 217, 217, 0.15);
-      color: #d9d9d9;
-      border: 1px solid #555;
-      font-weight: bold;
-      border-radius: 31px;
-      padding: 12px 30px;
-      font-size: 1rem;
+      background: #555;
+      color: white;
+      border: none;
+      font-weight: bold; /* Bold */
+      border-radius: 4px;
+      padding: 10px 20px;
+      font-size: 0.9rem; /* Standardized size */
+      font-family: 'Segoe UI', sans-serif; /* Standardized font */
       letter-spacing: 1px;
       cursor: pointer;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
+      transition: all 0.2s ease;
+      text-transform: uppercase; /* Uppercase */
       text-decoration: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 50px;
+      height: auto;
     }
 
     .cancel-button:hover {
-      background: rgba(217, 217, 217, 0.25);
-      
-      border-color: #777;
+      background: #666;
+      color: white;
     }
 
     .required {
       color: #ff761a;
+      margin-left: 3px;
     }
 
-    /* Mensaje de éxito (opcional para cuando implementes el backend) */
-    .success-message {
-      background: rgba(46, 204, 113, 0.2);
-      border: 1px solid #2ecc71;
-      color: #2ecc71;
+    /* Mensajes de feedback */
+    .alert {
       padding: 15px;
       border-radius: 8px;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
       text-align: center;
-      display: none;
+      font-weight: 500;
+      animation: fadeIn 0.5s ease;
     }
 
-    .success-message.show {
-      display: block;
+    .alert-success {
+      background: rgba(46, 204, 113, 0.15);
+      border: 1px solid #2ecc71;
+      color: #2ecc71;
+    }
+
+    .alert-error {
+      background: rgba(231, 76, 60, 0.15);
+      border: 1px solid #e74c3c;
+      color: #e74c3c;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
@@ -207,100 +269,113 @@
 
   <!-- Contenido principal -->
   <div class="main-content" id="mainContent">
-    <main class="hero" id="inicio" style="min-height: 40vh;">
-      <img src="../img/retrogroovelogo_wo.svg" alt="Logo Retrogroove" class="hero-logo">
+    <main class="hero" id="inicio" style="min-height: 40vh; align-items: center; padding-top: 100px;">
+      <img src="img/retrogroovelogo_wo.svg" alt="Logo Retrogroove" class="hero-logo">
       <section class="content fade-in" style="text-align: center;">
-        <p class="titulo" style="font-size: 3.5rem;">RESEÑA</p>
-        <p class="slogan">Comparte tu opinión sobre nuestros vinilos</p>
+        <p class="titulo" style="font-size: 3rem; margin-bottom: 0;">TU OPINIÓN</p>
+        <p class="slogan" style="color: #888; font-weight: normal;">Ayuda a otros coleccionistas a elegir su próximo vinilo</p>
       </section>
     </main>
 
-    <!-- Mensaje de éxito (se mostrará cuando el formulario se envíe correctamente) -->
-    <div class="success-message" id="successMessage">
-      ¡Gracias por tu reseña! Tu opinión ha sido enviada correctamente.
-    </div>
-
-    <!-- Formulario -->
-    <div class="form-container">
-      <h2>Escribe tu reseña</h2>
-      <p class="subtitle">Todos los campos son obligatorios</p>
-
-      <form action="formulario.php" method="POST" id="reviewForm">
+    <div class="form-section">
+        <div class="form-container">
         
-        <!-- Selector de vinilo -->
-        <div class="form-group">
-          <label for="vinilo_id">
-            Selecciona el vinilo <span class="required">*</span>
-          </label>
-          <select name="vinilo_id" id="vinilo_id" required>
-            <option value="">-- Elige un vinilo --</option>
-            <!-- Aquí irá el bucle PHP para mostrar los vinilos -->
-            <!-- <?php 
-            // if ($vinilos_result && $vinilos_result->num_rows > 0) {
-            //   while($vinilo = $vinilos_result->fetch_assoc()) {
-            //     echo '<option value="' . $vinilo['ID'] . '">' . htmlspecialchars($vinilo['NOMBRE']) . ' - ' . htmlspecialchars($vinilo['ARTISTA']) . '</option>';
-            //   }
-            // }
-            ?> -->
+          <?php if (!empty($mensaje)): ?>
+            <div class="alert alert-<?php echo $tipo_mensaje; ?>">
+                <?php echo $mensaje; ?>
+                <?php if($tipo_mensaje == 'success'): ?>
+                    <div style="margin-top:10px;">
+                        <a href="ver_catalogo.php" style="color: inherit; text-decoration: underline;">Volver al catálogo</a>
+                    </div>
+                <?php endif; ?>
+            </div>
+          <?php endif; ?>
+    
+          <?php if(empty($mensaje) || $tipo_mensaje == 'error'): ?>
+          
+          <h2>Nueva Reseña</h2>
+          <?php if($nombre_vinilo_seleccionado != ""): ?>
+              <p class="subtitle" style="color: #ff761a; font-weight: bold; margin-top: -5px;"><?php echo htmlspecialchars($nombre_vinilo_seleccionado); ?></p>
+          <?php else: ?>
+              <p class="subtitle">Comparte tu experiencia con nosotros</p>
+          <?php endif; ?>
+    
+          <form action="formulario.php" method="POST" id="reviewForm">
             
-            <!-- Ejemplos de opciones (borrar cuando conectes con la BD) -->
-            <option value="1">The Dark Side of the Moon - Pink Floyd</option>
-            <option value="2">Abbey Road - The Beatles</option>
-            <option value="3">Thriller - Michael Jackson</option>
-          </select>
+            <!-- Selector de vinilo -->
+            <div class="form-group">
+              <label for="vinilo_id">
+                Vinilo que vas a reseñar <span class="required">*</span>
+              </label>
+              <select name="vinilo_id" id="vinilo_id" required>
+                <option value="">Selecciona un álbum...</option>
+                <?php 
+                if ($result_vinilos && $result_vinilos->num_rows > 0) {
+                  while($vinilo = $result_vinilos->fetch_assoc()) {
+                    $selected = ($id_vinilo_seleccionado == $vinilo['ID']) ? 'selected' : '';
+                    echo '<option value="' . $vinilo['ID'] . '" ' . $selected . '>' . htmlspecialchars($vinilo['NOMBRE']) . ' - ' . htmlspecialchars($vinilo['ARTISTA']) . '</option>';
+                  }
+                }
+                ?>
+              </select>
+            </div>
+    
+            <!-- Nombre -->
+            <div class="form-group">
+              <label for="nombre">
+                Tu nombre <span class="required">*</span>
+              </label>
+              <input 
+                type="text" 
+                name="nombre" 
+                id="nombre" 
+                placeholder="Ej: Alex Turner" 
+                required
+                maxlength="100"
+                value="<?php echo isset($_POST['nombre']) ? htmlspecialchars($_POST['nombre']) : ''; ?>"
+              >
+            </div>
+    
+            <!-- Ciudad -->
+            <div class="form-group">
+              <label for="ciudad">
+                Ciudad <span class="required">*</span>
+              </label>
+              <input 
+                type="text" 
+                name="ciudad" 
+                id="ciudad" 
+                placeholder="Ej: Madrid" 
+                required
+                maxlength="100"
+                value="<?php echo isset($_POST['ciudad']) ? htmlspecialchars($_POST['ciudad']) : ''; ?>"
+              >
+            </div>
+    
+            <!-- Comentario -->
+            <div class="form-group">
+              <label for="comentario">
+                Tu Reseña <span class="required">*</span>
+              </label>
+              <textarea 
+                name="comentario" 
+                id="comentario" 
+                placeholder="Cuéntanos qué te pareció el disco, el estado del envío, la calidad del sonido..."
+                required
+                maxlength="1000"
+              ><?php echo isset($_POST['comentario']) ? htmlspecialchars($_POST['comentario']) : ''; ?></textarea>
+            </div>
+    
+            <!-- Botones -->
+            <div class="button-group">
+              <a href="ver_catalogo.php" class="cancel-button">Cancelar</a>
+              <button type="submit" class="submit-button">Publicar Reseña</button>
+            </div>
+    
+          </form>
+          
+          <?php endif; ?>
         </div>
-
-        <!-- Nombre -->
-        <div class="form-group">
-          <label for="nombre">
-            Tu nombre <span class="required">*</span>
-          </label>
-          <input 
-            type="text" 
-            name="nombre" 
-            id="nombre" 
-            placeholder="Ej: Juan Pérez" 
-            required
-            maxlength="100"
-          >
-        </div>
-
-        <!-- Ciudad -->
-        <div class="form-group">
-          <label for="ciudad">
-            Tu ciudad <span class="required">*</span>
-          </label>
-          <input 
-            type="text" 
-            name="ciudad" 
-            id="ciudad" 
-            placeholder="Ej: Valencia" 
-            required
-            maxlength="100"
-          >
-        </div>
-
-        <!-- Comentario -->
-        <div class="form-group">
-          <label for="comentario">
-            Tu opinión <span class="required">*</span>
-          </label>
-          <textarea 
-            name="comentario" 
-            id="comentario" 
-            placeholder="Escribe aquí tu opinión sobre este vinilo..."
-            required
-            maxlength="1000"
-          ></textarea>
-        </div>
-
-        <!-- Botones -->
-        <div class="button-group">
-          <a href="ver_catalogo.php" class="cancel-button">Cancelar</a>
-          <button type="submit" class="submit-button">Enviar reseña</button>
-        </div>
-
-      </form>
     </div>
 
     <!-- Footer -->
@@ -310,10 +385,10 @@
           <h3>Contact</h3>
           <p>(+34) 961 45 28 35<br> info@retrogroove.com</p>
           <div class="social">
-            <i><img src="/img/icono_facebook.svg"></i>
-            <i><img src="/img/icono_instagram.svg"></i>
-            <i><img src="/img/icono_twitter.svg"></i>
-            <i><img src="/img/icono_youtube.svg"></i>
+            <i><img src="img/icono_facebook.svg"></i>
+            <i><img src="img/icono_instagram.svg"></i>
+            <i><img src="img/icono_twitter.svg"></i>
+            <i><img src="img/icono_youtube.svg"></i>
           </div>
         </div>
         <div>
@@ -329,18 +404,6 @@
     </footer>
   </div>
 
-  <script src="/script.js"></script>
-  
-  <script>
-    // Script opcional para mostrar el mensaje de éxito
-    // Descomenta cuando tengas el backend funcionando
-    /*
-    const form = document.getElementById('reviewForm');
-    form.addEventListener('submit', function(e) {
-      // El formulario se enviará normalmente, pero puedes agregar validaciones aquí
-    });
-    */
-  </script>
+  <script src="script.js"></script>
 </body>
-
 </html>
