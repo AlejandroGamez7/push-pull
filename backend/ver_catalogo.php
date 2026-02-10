@@ -65,7 +65,9 @@ $result = $conn->query($sql);
               <span class="price-tag"><?php echo htmlspecialchars($vinilo['PRECIO']); ?>€</span>
               <a href="formulario.php" class="review-button">Escribir reseña</a>
             </div>
-        </div>
+        </div> <!-- Cierre caracteristicas -->
+      </div> <!-- Cierre overlay-text -->
+    </div> <!-- Cierre vinyl -->
             <?php
           }
         } else {
