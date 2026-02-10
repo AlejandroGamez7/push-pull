@@ -61,9 +61,10 @@ $result = $conn->query($sql);
             <div class="caracteristicas">
               <?php echo htmlspecialchars($vinilo['DESCRIPCION']); ?><br>
               Año: <?php echo htmlspecialchars($vinilo['AÑO']); ?><br>
+            <div class="price-and-review">
+              <span class="price-tag"><?php echo htmlspecialchars($vinilo['PRECIO']); ?>€</span>
+              <a href="formulario.php" class="review-button">Escribir reseña</a>
             </div>
-            <span class="price-tag"><?php echo htmlspecialchars($vinilo['PRECIO']); ?>€</span>
-          </div>
         </div>
             <?php
           }
