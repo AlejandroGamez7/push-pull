@@ -76,6 +76,7 @@ $result = $conn->query($sql);
         ?>
       </div>
     </section>
+    
     <!-- Footer -->
     <footer id="footer" class="footer">
       <div class="footer-grid">
