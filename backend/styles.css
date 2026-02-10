@@ -110,7 +110,7 @@ body {
   min-height: 100vh;
   transition: all 0.4s ease;
   position: relative;
-  background: url('img/imagenVNL3XL.jpg') center center/cover no-repeat;
+  background: none;
 }
 
 .hero::before {
@@ -495,4 +495,35 @@ body {
   text-align: center;
   font-size: 0.8rem;
   color: #888;
+}
+
+
+/* Contenedor para precio y botón de reseña */
+.price-and-review {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+/* Botón de escribir reseña */
+.review-button {
+  display: inline-block;
+  background: rgba(255, 118, 26, 0.22);
+  color: #ff761a;
+  border: 1px solid #ff761a;
+  font-weight: bold;
+  border-radius: 31px;
+  padding: 6px 18px;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.review-button:hover {
+  background: rgba(255, 118, 26, 0.35);
+  transform: scale(1.05);
 }
