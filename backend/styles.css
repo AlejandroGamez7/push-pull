@@ -513,22 +513,33 @@ body {
 /* Botón de escribir reseña */
 .review-button {
   display: inline-block;
-  background: rgba(255, 118, 26, 0.22);
-  color: #ff761a;
+  background: #ff761a;
+  /* Solid Orange CTA */
+  color: #fff;
+  /* White text */
   border: 1px solid #ff761a;
   font-weight: bold;
   border-radius: 31px;
+  /* Matches price tag */
   padding: 6px 18px;
+  /* Matches price tag padding */
   font-size: 0.9rem;
+  /* Matches price tag font size */
   letter-spacing: 1px;
   text-decoration: none;
   transition: all 0.3s ease;
   user-select: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  /* Slight shadow for depth */
 }
 
 .review-button:hover {
-  background: rgba(255, 118, 26, 0.35);
-  transform: scale(1.05);
+  background: #ff914d;
+  /* Lighter orange on hover */
+  border-color: #ff914d;
+  transform: translateY(-2px);
+  /* Subtle lift */
+  color: #fff;
 }
 
 /* =========================================
