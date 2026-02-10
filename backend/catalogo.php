@@ -395,7 +395,7 @@ $result_opiniones = $conn->query($sql_op);
                <input type="submit" value="Filtrar" style="width: auto; padding: 10px 25px;">
                
                <?php if($bus_vinilo != "" || $bus_ciudad != ""): ?>
-                   <a href="catalogo.php#foco-opiniones" style="color: var(--text-dim); text-decoration: underline;">Limpiar filtros</a>
+                   <a href="catalogo.php?limpiar=true#foco-opiniones" style="color: var(--text-dim); text-decoration: underline; margin-left:10px;">Limpiar filtros</a>
                <?php endif; ?>
             </form>
         </div>
