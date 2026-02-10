@@ -43,6 +43,14 @@ if (isset($_GET['toggle']) && isset($_GET['estado_actual'])) {
     exit();
 }
 
+// D) BORRAR OPINIÓN
+if (isset($_GET['borrar_opinion'])) {
+    $id_opinion = intval($_GET['borrar_opinion']);
+    $conn->query("DELETE FROM opiniones WHERE id = $id_opinion");
+    header("Location: catalogo.php#foco-opiniones");
+    exit();
+}
+
 // D) EDITAR VINILO (AJAX)
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['accion']) && $_POST['accion'] == 'editar') {
     $id = intval($_POST['id']);
@@ -87,6 +95,40 @@ if (isset($_POST['busqueda'])) {
 }
 $sql = "SELECT * FROM vinilos $where ORDER BY ID DESC";
 $result = $conn->query($sql);
+
+// --- 3. CONSULTA OPINIONES ---
+$where_opiniones = "";
+$bus_vinilo = "";
+$bus_ciudad = "";
+
+if (isset($_POST['filtrar_opiniones'])) {
+    $conditions = [];
+    
+    if (!empty($_POST['bus_vinilo'])) {
+        $bus_vinilo = $conn->real_escape_string($_POST['bus_vinilo']);
+        $conditions[] = "vinilos.NOMBRE LIKE '%$bus_vinilo%'";
+    }
+    
+    if (!empty($_POST['bus_ciudad'])) {
+        $bus_ciudad = $conn->real_escape_string($_POST['bus_ciudad']);
+        $conditions[] = "opiniones.ciudad LIKE '%$bus_ciudad%'";
+    }
+    
+    if (count($conditions) > 0) {
+        $where_opiniones = "WHERE " . implode(" AND ", $conditions);
+    }
+}
+
+// Consulta de opiniones con datos del vinilo
+// LEFT JOIN para obtener el nombre del vinilo asociado
+$sql_op = "SELECT opiniones.*, vinilos.NOMBRE as nombre_vinilo 
+           FROM opiniones 
+           LEFT JOIN vinilos ON opiniones.idVinilo = vinilos.ID 
+           $where_opiniones 
+           ORDER BY opiniones.id DESC";
+
+// Ejecutamos la consulta silenciando errores por si la tabla no existe aún
+$result_opiniones = $conn->query($sql_op);
 ?>
 
 <!DOCTYPE html>
@@ -331,6 +373,87 @@ $result = $conn->query($sql);
             </table>
         <?php else: ?>
             <p style="text-align:center; color: var(--text-dim);">No hay resultados.</p>
+        <?php endif; ?>
+    </div>
+
+    <!-- SECCION GESTION OPINIONES -->
+    <h2 id="foco-opiniones" style="margin-top: 40px; margin-bottom: 20px; border-bottom: 1px solid var(--accent);">Opiniones Recibidas</h2>
+    
+    <div class="controls-container">
+        <div class="card" style="width: 100%;">
+            <h3 style="margin-bottom: 15px; font-size: 1rem; color: var(--text-dim);">Filtrar Opiniones</h3>
+            <form action="catalogo.php#foco-opiniones" method="POST" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+               <input type="hidden" name="filtrar_opiniones" value="1">
+               
+               <div style="flex: 1; min-width: 200px;">
+                   <input type="text" name="bus_vinilo" placeholder="Por Vinilo (Nombre)..." value="<?php echo $bus_vinilo; ?>" style="margin-bottom:0;">
+               </div>
+               <div style="flex: 1; min-width: 200px;">
+                   <input type="text" name="bus_ciudad" placeholder="Por Ciudad..." value="<?php echo $bus_ciudad; ?>" style="margin-bottom:0;">
+               </div>
+               
+               <input type="submit" value="Filtrar" style="width: auto; padding: 10px 25px;">
+               
+               <?php if($bus_vinilo != "" || $bus_ciudad != ""): ?>
+                   <a href="catalogo.php#foco-opiniones" style="color: var(--text-dim); text-decoration: underline;">Limpiar filtros</a>
+               <?php endif; ?>
+            </form>
+        </div>
+    </div>
+    
+    <div class="card">
+        <?php if ($result_opiniones && $result_opiniones->num_rows > 0): ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Vinilo Ref.</th>
+                        <th>Cliente</th>
+                        <th>Ciudad</th>
+                        <th>Comentario</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($result_opiniones as $op): ?>
+                        <tr>
+                            <td style="color: #666;">#<?php echo $op['id']; ?></td>
+                            <td>
+                                <?php 
+                                    if(!empty($op['nombre_vinilo'])) {
+                                        echo "<strong style='color: var(--accent);'>" . $op['nombre_vinilo'] . "</strong>";
+                                    } else {
+                                        echo "<span style='color:#666;'>ID: " . $op['idVinilo'] . " (??)</span>";
+                                    }
+                                ?>
+                            </td>
+                            <td><?php echo $op['nombre']; ?></td>
+                            <td><?php echo $op['ciudad']; ?></td>
+                            <td style="color: var(--text-dim); font-style: italic;">
+                                "<?php echo $op['comentario']; ?>"
+                            </td>
+                            <td>
+                                <a href="catalogo.php?borrar_opinion=<?php echo $op['id']; ?>" 
+                                   class="btn-icon btn-del" 
+                                   onclick="return confirm('¿Seguro que quieres borrar esta opinión?');"
+                                   title="Eliminar Opinión">
+                                    <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else: ?>
+            <p style="padding:20px; text-align:center; color: var(--text-dim);">
+                <?php 
+                    if ($result_opiniones === false) {
+                        echo "No se pudo acceder a la tabla 'opiniones'. Verifique la base de datos.";
+                    } else {
+                        echo "No hay opiniones registradas" . (($where_opiniones != "") ? " con esos filtros." : ".");
+                    }
+                ?>
+            </p>
         <?php endif; ?>
     </div>
 
