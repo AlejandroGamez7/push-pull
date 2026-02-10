@@ -110,7 +110,7 @@ body {
   min-height: 100vh;
   transition: all 0.4s ease;
   position: relative;
-  background: url('img/imagenVNL3XL.jpg') center center/cover no-repeat;
+  background: none;
 }
 
 .hero::before {

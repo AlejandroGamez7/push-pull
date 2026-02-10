@@ -9,8 +9,8 @@
 //     $vinilo_id = $_POST['vinilo_id'];
 //     
 //     // Insertar en base de datos
-//     // $stmt = $conn->prepare("INSERT INTO reseñas (nombre, ciudad, comentario, vinilo_id) VALUES (?, ?, ?, ?)");
-//     // $stmt->bind_param("sssi", $nombre, $ciudad, $comentario, $vinilo_id);
+//     // $stmt = $conn->prepare("INSERT INTO opiniones (idVinilo, nombre, ciudad, comentario) VALUES (?, ?, ?, ?)");
+//     // $stmt->bind_param("sssi", $vinilo_id, $nombre, $ciudad, $comentario);
 //     // $stmt->execute();
 //     
 //     // Redireccionar o mostrar mensaje de éxito
@@ -28,8 +28,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Escribir Reseña - Retrogroove</title>
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="icon" type="/image/png" href="/img/favicon_o.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="icon" type="./image/png" href="./img/favicon_o.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -57,7 +57,7 @@
     }
 
     .form-container .subtitle {
-      color: #888;
+      color: #d9d9d9;
       text-align: center;
       margin-bottom: 40px;
       font-size: 1rem;
@@ -105,6 +105,12 @@
 
     .form-group select {
       cursor: pointer;
+      color: #1a1a1a;
+    }
+
+    .form-group select option {
+      background: #2a2a2a;
+      color: #d9d9d9;
     }
 
     .button-group {
@@ -126,6 +132,10 @@
       cursor: pointer;
       transition: all 0.3s ease;
       text-transform: uppercase;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .submit-button:hover {
@@ -148,12 +158,15 @@
       transition: all 0.3s ease;
       text-transform: uppercase;
       text-decoration: none;
-      text-align: center;
-      display: inline-block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 50px;
     }
 
     .cancel-button:hover {
       background: rgba(217, 217, 217, 0.25);
+      
       border-color: #777;
     }
 
