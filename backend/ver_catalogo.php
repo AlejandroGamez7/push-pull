@@ -275,9 +275,11 @@ $result_opiniones = $conn->query($sql_opiniones);
               Año: <?php echo htmlspecialchars($vinilo['AÑO']); ?><br>
             <div class="price-and-review">
               <span class="price-tag"><?php echo htmlspecialchars($vinilo['PRECIO']); ?>€</span>
-              <a href="formulario.php" class="review-button">Escribir reseña</a>
+              <a href="formulario.php?idvinilo=<?php echo $vinilo['ID']; ?>" class="review-button">Reseña</a>
             </div>
-        </div>
+        </div> <!-- Cierre caracteristicas -->
+      </div> <!-- Cierre overlay-text -->
+    </div> <!-- Cierre vinyl -->
             <?php
           }
         } else {
