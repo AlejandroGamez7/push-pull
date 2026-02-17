@@ -40,7 +40,7 @@ $result = $conn->query($sql);
   <!-- Contenido principal -->
   <div class="main-content" id="mainContent">
     <main class="hero" id="inicio">
-      <img src="../img/retrogroovelogo_wo.svg" alt="Logo Retrogroove" class="hero-logo">
+      <img src="/img/retrogroovelogo_wo.svg" alt="Logo Retrogroove" class="hero-logo">
       <section class="content fade-in" style="text-align: center;">
         <p class="titulo">CATÁLOGO</p>
         <p class="slogan">Explora nuestra colección de vinilos</p>
