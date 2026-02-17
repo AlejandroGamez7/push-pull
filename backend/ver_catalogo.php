@@ -111,13 +111,15 @@ $result_opiniones = $conn->query($sql_opiniones);
 
     .vinyl-badge {
       display: inline-block;
-      background: linear-gradient(135deg, #e85d04 0%, #ff6b0a 100%);
-      color: white;
-      padding: 8px 16px;
-      border-radius: 20px;
+      background: rgba(217, 217, 217, 0.22);
+      color: #d9d9d9;
+      border: 1px solid #D9D9D9;
+      font-weight: bold;
+      border-radius: 31px;
+      padding: 6px 18px;
       font-size: 0.9rem;
-      font-weight: 600;
-      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 1px;
+      user-select: none;
     }
 
     .review-body {
@@ -308,7 +310,7 @@ $result_opiniones = $conn->query($sql_opiniones);
                 <div class="review-header">
                   <div class="review-user-info">
                     <h3 class="review-name"><?php echo htmlspecialchars($opinion['nombre']); ?></h3>
-                    <p class="review-city">📍 <?php echo htmlspecialchars($opinion['ciudad']); ?></p>
+                    <p class="review-city"> <?php echo htmlspecialchars($opinion['ciudad']); ?></p>
                   </div>
                   <div class="review-vinyl-ref">
                     <span class="vinyl-badge">
